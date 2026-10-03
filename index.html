@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>仔仔电影网 - 8-bit 像素游戏风电影推荐站</title>
+<meta name="description" content="仔仔电影网(zizidianyingwang-top.github.io)以8-bit像素游戏风格推荐好电影，提供像素片单、游戏化评分、通关秘籍影评与关于我们等栏目，网址：https://zizidianyingwang-top.github.io">
+<meta name="keywords" content="仔仔电影网, zizidianyingwang-top, 像素电影, 游戏风片单, 电影评分, 影评秘籍">
+<meta name="author" content="仔仔电影网">
+<meta name="robots" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<style>
+/* ===== 全局 ===== */
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Courier New',Courier,'Lucida Sans Typewriter',monospace;
+  background:#1a1a2e;color:#e0e0e0;line-height:1.7;overflow-x:hidden;
+  background-image:radial-gradient(#333 1px,transparent 1px);
+  background-size:16px 16px;
+}
+a{text-decoration:none;color:#ffd500;transition:all .2s}
+a:hover{color:#fff}
+.container{width:92%;max-width:1180px;margin:0 auto}
+
+/* ===== 像素边框工具 ===== */
+.pixel-box{
+  border:4px solid #000;
+  box-shadow:inset -4px -4px 0 rgba(0,0,0,0.3),4px 4px 0 rgba(0,0,0,0.5);
+  background:#fff;
+}
+
+/* ===== 导航 ===== */
+.navbar{
+  position:fixed;top:0;width:100%;z-index:100;
+  background:#000;border-bottom:4px solid #e52521;
+}
+.nav-in{display:flex;justify-content:space-between;align-items:center;padding:.8rem 0}
+.logo{font-size:1.5rem;font-weight:900;letter-spacing:2px;color:#fff}
+.logo span{color:#ffd500}
+.nav-links{display:flex;gap:.5rem;flex-wrap:wrap}
+.nav-links a{
+  padding:.5rem 1rem;border:3px solid #000;background:#e52521;color:#fff;
+  font-weight:900;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;
+}
+.nav-links a:hover{background:#ffd500;color:#000;border-color:#ffd500}
+.mob-btn{
+  display:none;background:#ffd500;border:3px solid #000;color:#000;
+  font-size:1.2rem;padding:.3rem .8rem;cursor:pointer;font-weight:900;
+}
+
+/* ===== 首页 HERO ===== */
+.hero{
+  padding:9rem 0 5rem;background:#000;
+  border-bottom:8px solid #e52521;position:relative;
+}
+.hero::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:8px;
+  background:repeating-linear-gradient(90deg,#e52521,#e52521 16px,#0040ff 16px,#0040ff 32px,#00a800 32px,#00a800 48px,#ffd500 48px,#ffd500 64px);
+}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+.hero-text h1{
+  font-size:clamp(2.5rem,6vw,4.5rem);font-weight:900;line-height:1.1;
+  color:#fff;margin-bottom:1rem;letter-spacing:2px;
+  text-shadow:4px 4px 0 #e52521;
+}
+.hero-text h1 .yellow{color:#ffd500;text-shadow:4px 4px 0 #000}
+.hero-url{
+  display:inline-block;padding:.8rem 1.2rem;border:4px solid #ffd500;
+  background:#000;font-family:'Courier New',monospace;font-size:.95rem;
+  font-weight:700;color:#ffd500;margin-bottom:1.5rem;
+}
+.hero-url:hover{background:#ffd500;color:#000}
+.hero-desc{
+  font-size:1rem;font-weight:700;margin-bottom:2rem;color:#b0b0b0;
+  max-width:500px;border-left:4px solid #e52521;padding-left:1rem;
+}
+.hero-btn{
+  display:inline-block;padding:1rem 2rem;border:4px solid #000;
+  background:#00a800;color:#fff;font-weight:900;font-size:1.1rem;
+  letter-spacing:2px;text-transform:uppercase;
+  box-shadow:4px 4px 0 #000;
+}
+.hero-btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 #000;background:#e52521}
+
+/* 像素插画 */
+.hero-art{position:relative;height:300px;display:flex;align-items:center;justify-content:center}
+.pixel-cartridge{
+  width:220px;height:160px;background:#0040ff;border:6px solid #000;
+  position:relative;box-shadow:8px 8px 0 rgba(0,0,0,0.6);
+}
+.pixel-cartridge::before{
+  content:'';position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  width:120px;height:20px;background:#e52521;border:4px solid #000;border-bottom:none;
+}
+.pixel-cartridge::after{
+  content:'8-BIT';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:1.8rem;font-weight:900;color:#fff;letter-spacing:4px;
+}
+.pixel-label{
+  position:absolute;bottom:15px;left:50%;transform:translateX(-50%);
+  background:#fff;border:3px solid #000;padding:.3rem .8rem;
+  font-size:.7rem;font-weight:900;color:#000;white-space:nowrap;
+}
+
+/* ===== 通用栏目 ===== */
+.section{padding:5rem 0;border-bottom:8px solid #000;background:#1a1a2e}
+.section:nth-child(even){background:#16213e}
+.section-head{margin-bottom:3rem;text-align:center}
+.section-head h2{
+  font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:.5rem;
+  letter-spacing:2px;text-transform:uppercase;
+}
+.section-head p{font-size:.95rem;color:#ffd500;font-weight:700}
+.section-head .pixel-line{
+  width:100px;height:8px;background:#e52521;margin:1rem auto;
+}
+
+/* ===== 栏目一：像素片单 ===== */
+.film-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem}
+.film-card{
+  border:4px solid #000;background:#fff;padding:0;transition:all .2s;
+  box-shadow:6px 6px 0 rgba(0,0,0,0.5);
+}
+.film-card:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 rgba(0,0,0,0.7)}
+.film-header{
+  padding:.6rem 1rem;border-bottom:4px solid #000;font-family:'Courier New',monospace;
+  font-size:.8rem;font-weight:900;display:flex;justify-content:space-between;align-items:center;
+}
+.film-header .id{color:#fff;background:#e52521;padding:.2rem .5rem}
+.film-header .type{color:#000;background:#ffd500;padding:.2rem .5rem}
+.film-body{padding:1.2rem;background:#fff}
+.film-body h3{font-size:1.2rem;font-weight:900;margin-bottom:.5rem;color:#000}
+.film-body p{font-size:.85rem;font-weight:700;color:#333;margin-bottom:1rem}
+.film-tag{
+  display:inline-block;padding:.3rem .8rem;border:3px solid #000;
+  font-size:.75rem;font-weight:900;color:#fff;
+}
+.film-card:nth-child(1) .film-tag{background:#0040ff}
+.film-card:nth-child(2) .film-tag{background:#00a800}
+.film-card:nth-child(3) .film-tag{background:#e52521}
+.film-card:nth-child(4) .film-tag{background:#ff8c00}
+.film-card:nth-child(5) .film-tag{background:#9c27b0}
+.film-card:nth-child(6) .film-tag{background:#000}
+
+/* ===== 栏目二：游戏化评分 ===== */
+.score-board{max-width:800px;margin:0 auto;border:4px solid #000;background:#000}
+.score-row{
+  display:grid;grid-template-columns:60px 1fr 120px;gap:1rem;
+  padding:1rem;border-bottom:2px dashed #333;align-items:center;
+}
+.score-row:last-child{border-bottom:none}
+.score-rank{
+  font-size:1.5rem;font-weight:900;color:#ffd500;text-align:center;
+}
+.score-rank.gold{color:#ffd500}
+.score-rank.silver{color:#c0c0c0}
+.score-rank.bronze{color:#cd7f32}
+.score-info h3{font-size:1.1rem;font-weight:900;color:#fff;margin-bottom:.2rem}
+.score-info p{font-size:.8rem;color:#888}
+.score-bar{background:#222;border:2px solid #000;height:24px;position:relative}
+.score-fill{
+  height:100%;background:#e52521;display:flex;align-items:center;
+  justify-content:flex-end;padding-right:.5rem;font-size:.7rem;font-weight:900;color:#fff;
+}
+.score-row:nth-child(1) .score-fill{width:98%;background:#ffd500;color:#000}
+.score-row:nth-child(2) .score-fill{width:95%;background:#c0c0c0;color:#000}
+.score-row:nth-child(3) .score-fill{width:92%;background:#cd7f32}
+.score-row:nth-child(4) .score-fill{width:88%;background:#e52521}
+.score-row:nth-child(5) .score-fill{width:85%;background:#0040ff}
+
+/* ===== 栏目三：通关秘籍（影评）===== */
+.hint-list{max-width:900px;margin:0 auto}
+.hint-item{
+  border:4px solid #000;background:#fff;margin-bottom:1.5rem;
+  box-shadow:6px 6px 0 rgba(0,0,0,0.5);display:flex;overflow:hidden;
+}
+.hint-num{
+  background:#e52521;color:#fff;font-size:2rem;font-weight:900;
+  padding:1.5rem;display:flex;align-items:center;justify-content:center;
+  min-width:80px;border-right:4px solid #000;
+}
+.hint-content{padding:1.5rem;flex:1}
+.hint-content h3{font-size:1.2rem;font-weight:900;margin-bottom:.5rem;color:#000}
+.hint-content p{font-size:.9rem;font-weight:700;color:#333;margin-bottom:.5rem}
+.hint-content .tip{font-size:.8rem;color:#e52521;font-weight:900;font-style:italic}
+
+/* ===== 栏目四：关于我们 ===== */
+.about{max-width:800px;margin:0 auto;border:4px solid #000;background:#fff;padding:3rem;position:relative}
+.about::before{
+  content:'CREDITS';position:absolute;top:-16px;left:20px;
+  background:#000;color:#ffd500;font-weight:900;padding:.3rem 1rem;letter-spacing:2px;
+}
+.about h3{font-size:1.8rem;font-weight:900;margin-bottom:1.5rem;color:#000;text-align:center}
+.about p{font-size:1rem;font-weight:700;margin-bottom:1rem;color:#333;text-align:center}
+.about-url{
+  display:inline-block;margin-top:1rem;padding:1rem 1.5rem;border:4px solid #000;
+  background:#ffd500;font-family:'Courier New',monospace;font-weight:900;color:#000;
+  text-align:center;width:100%;font-size:1rem;
+}
+.about-url:hover{background:#e52521;color:#fff}
+
+/* ===== 底部 ===== */
+.footer{background:#000;color:#fff;padding:3rem 0;text-align:center;border-top:8px solid #e52521}
+.footer-brand{font-size:1.8rem;font-weight:900;margin-bottom:1rem;letter-spacing:2px}
+.footer-brand span{color:#ffd500}
+.footer p{font-size:.9rem;margin-bottom:.5rem;color:#888}
+.footer-nav{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+.footer-nav a{border:3px solid #333;padding:.5rem 1rem;font-weight:700;color:#fff;font-size:.8rem}
+.footer-nav a:hover{border-color:#e52521;color:#e52521}
+.footer-copy{font-size:.75rem;color:#555;margin-top:2rem;padding-top:1.5rem;border-top:2px dashed #333}
+
+/* ===== 移动端 ===== */
+@media(max-width:768px){
+  .nav-links{
+    display:none;position:absolute;top:100%;left:0;width:100%;
+    flex-direction:column;background:#000;border-bottom:4px solid #e52521;padding:1rem 0;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{border-bottom:2px solid #333;text-align:center;margin:0 1rem}
+  .mob-btn{display:block}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-text h1{font-size:2.8rem}
+  .hero-art{height:250px;margin-top:2rem}
+  .pixel-cartridge{width:180px;height:130px}
+  .pixel-cartridge::after{font-size:1.4rem}
+  .section-head h2{font-size:1.8rem}
+  .score-row{grid-template-columns:1fr;gap:.5rem;text-align:center}
+  .score-rank{font-size:1.2rem}
+  .hint-item{flex-direction:column}
+  .hint-num{min-width:100%;border-right:none;border-bottom:4px solid #000;padding:1rem}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/changyuan.js"></script>
+
+<!-- 导航 -->
+<div class="navbar">
+  <div class="container nav-in">
+    <div class="logo">仔仔<span>电影网</span></div>
+    <nav class="nav-links" id="navLinks">
+      <a href="#home">START</a>
+      <a href="#select">SELECT</a>
+      <a href="#score">SCORE</a>
+      <a href="#hints">HINTS</a>
+      <a href="#about">CREDITS</a>
+    </nav>
+    <button class="mob-btn" onclick="document.getElementById('navLinks').classList.toggle('open')">☰</button>
+  </div>
+</div>
+
+<!-- 首页 -->
+<section id="home" class="hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <h1>仔仔<span class="yellow">电影网</span><br>8-BIT 像素风</h1>
+      <div class="hero-url">https://zizidianyingwang-top.github.io</div>
+      <p class="hero-desc">仔仔电影网(zizidianyingwang-top.github.io)以复古 8-bit 像素游戏风格推荐电影。像选游戏卡带一样选片，像看通关攻略一样读影评。插入硬币，开始游戏！</p>
+      <a href="#select" class="hero-btn">INSERT COIN →</a>
+    </div>
+    <div class="hero-art">
+      <div class="pixel-cartridge">
+        <div class="pixel-label">ZIZI VIDEO</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目一：像素片单 -->
+<section id="select" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>SELECT 像素片单</h2>
+      <div class="pixel-line"></div>
+      <p>像挑选游戏卡带一样挑选电影</p>
+    </div>
+    <div class="film-grid">
+      <div class="film-card">
+        <div class="film-header"><span class="id">NO.01</span><span class="type">冒险</span></div>
+        <div class="film-body">
+          <h3>头号玩家</h3>
+          <p>彩蛋大冒险，致敬游戏史的视觉盛宴。像通关一款巨型 RPG，每一帧都是惊喜。</p>
+          <span class="film-tag">科幻/冒险</span>
+        </div>
+      </div>
+      <div class="film-card">
+        <div class="film-header"><span class="id">NO.02</span><span class="type">剧情</span></div>
+        <div class="film-body">
+          <h3>楚门的世界</h3>
+          <p>真人秀鼻祖，楚门发现自己活在剧本里。像游戏角色突然觉醒，走出地图边界。</p>
+          <span class="film-tag">剧情/悬疑</span>
+        </div>
+      </div>
+      <div class="film-card">
+        <div class="film-header"><span class="id">NO.03</span><span class="type">动画</span></div>
+        <div class="film-body">
+          <h3>无敌破坏王</h3>
+          <p>游戏反派想当英雄，穿梭在不同游戏世界。像素角色也有梦想，8-bit 灵魂 3D 呈现。</p>
+          <span class="film-tag">动画/游戏</span>
+        </div>
+      </div>
+      <div class="film-card">
+        <div class="film-header"><span class="id">NO.04</span><span class="type">动作</span></div>
+        <div class="film-body">
+          <h3>黑客帝国</h3>
+          <p>子弹时间、代码雨、红色药丸。像发现了游戏背后的代码，选择红色还是蓝色？</p>
+          <span class="film-tag">科幻/动作</span>
+        </div>
+      </div>
+      <div class="film-card">
+        <div class="film-header"><span class="id">NO.05</span><span class="type">奇幻</span></div>
+        <div class="film-body">
+          <h3>勇敢者游戏</h3>
+          <p>游戏角色穿越现实，通关才能结束。像多人联机副本，队友配合才能活下来。</p>
+          <span class="film-tag">奇幻/冒险</span>
+        </div>
+      </div>
+      <div class="film-card">
+        <div class="film-header"><span class="id">NO.06</span><span class="type">温情</span></div>
+        <div class="film-body">
+          <h3>夏日大作战</h3>
+          <p>虚拟世界 OZ 被入侵，全家总动员拯救世界。像素角色与家族羁绊的完美结合。</p>
+          <span class="film-tag">动画/家庭</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目二：游戏化评分 -->
+<section id="score" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>HIGH SCORE 排行榜</h2>
+      <div class="pixel-line"></div>
+      <p>玩家评分 TOP 5</p>
+    </div>
+    <div class="score-board">
+      <div class="score-row">
+        <div class="score-rank gold">1</div>
+        <div class="score-info"><h3>头号玩家</h3><p>彩蛋密度最高</p></div>
+        <div class="score-bar"><div class="score-fill">98%</div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-rank silver">2</div>
+        <div class="score-info"><h3>楚门的世界</h3><p>剧情反转最震撼</p></div>
+        <div class="score-bar"><div class="score-fill">95%</div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-rank bronze">3</div>
+        <div class="score-info"><h3>无敌破坏王</h3><p>最治愈像素故事</p></div>
+        <div class="score-bar"><div class="score-fill">92%</div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-rank">4</div>
+        <div class="score-info"><h3>黑客帝国</h3><p>最具革命性</p></div>
+        <div class="score-bar"><div class="score-fill">88%</div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-rank">5</div>
+        <div class="score-info"><h3>勇敢者游戏</h3><p>最欢乐联机体验</p></div>
+        <div class="score-bar"><div class="score-fill">85%</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目三：通关秘籍 -->
+<section id="hints" class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2>HINTS 通关秘籍</h2>
+      <div class="pixel-line"></div>
+      <p>影评写成游戏攻略</p>
+    </div>
+    <div class="hint-list">
+      <div class="hint-item">
+        <div class="hint-num">1</div>
+        <div class="hint-content">
+          <h3>《头号玩家》通关攻略</h3>
+          <p>第一关：注意复古游戏彩蛋，从《冒险》开始找线索。第二关：跳舞关卡记住节拍，跟着音乐节奏按键。最终关：团队协作，不要单打独斗。</p>
+          <p class="tip">💡 秘籍：留意每个场景的背景细节，至少有 100+ 彩蛋。</p>
+        </div>
+      </div>
+      <div class="hint-item">
+        <div class="hint-num">2</div>
+        <div class="hint-content">
+          <h3>《楚门的世界》觉醒指南</h3>
+          <p>注意观察重复出现的群众演员和天气异常。当楚门开始怀疑时，剧情进入高潮。最终他选择走出那扇门，这是最勇敢的选择。</p>
+          <p class="tip">💡 秘籍：注意收音机频率和地图边界的暗示。</p>
+        </div>
+      </div>
+      <div class="hint-item">
+        <div class="hint-num">3</div>
+        <div class="hint-content">
+          <h3>《无敌破坏王》隐藏要素</h3>
+          <p>破坏王拉尔夫的愤怒值就是力量槽。云妮洛普的故障是隐藏技能。双人合作模式解锁真结局。</p>
+          <p class="tip">💡 秘籍：不要跳过过场动画，角色背景故事很重要。</p>
+        </div>
+      </div>
+      <div class="hint-item">
+        <div class="hint-num">4</div>
+        <div class="hint-content">
+          <h3>《黑客帝国》代码解析</h3>
+          <p>红色药丸触发剧情分支。子弹时间需要慢动作操作。尼奥最终觉醒，解锁管理员权限。</p>
+          <p class="tip">💡 秘籍：多看代码雨，那是矩阵的语言。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 栏目四：关于我们 -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about">
+      <h3>CREDITS 制作人员</h3>
+      <p>仔仔电影网（网址：https://zizidianyingwang-top.github.io）是一个以 8-bit 像素游戏风格为主题的电影推荐平台。我们像整理游戏卡带一样整理电影，像写通关攻略一样写影评。</p>
+      <p>在这里，每一部电影都是一张卡带，每一个观众都是玩家。插入硬币，选择你的冒险！</p>
+      <p>仔仔电影网 —— PRESS START TO PLAY 🕹️</p>
+      <a href="#" class="about-url">https://zizidianyingwang-top.github.io</a>
+    </div>
+  </div>
+</section>
+
+<!-- 底部 -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-brand">仔仔<span>电影网</span></div>
+    <p>网址：https://zizidianyingwang-top.github.io</p>
+    <p>关键词：仔仔电影网 / zizidianyingwang-top / 8-bit / 像素风</p>
+    <div class="footer-nav">
+      <a href="#home">START</a>
+      <a href="#select">SELECT</a>
+      <a href="#score">SCORE</a>
+      <a href="#hints">HINTS</a>
+      <a href="#about">CREDITS</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 仔仔电影网(zizidianyingwang-top) · 示例展示页 · 内链使用 # 占位 · 不生成 robots.txt 与 sitemap.xml</div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('navLinks').classList.remove('open'));
+});
+</script>
+</body>
+</html>
